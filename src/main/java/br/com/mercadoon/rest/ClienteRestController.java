@@ -2,6 +2,7 @@ package br.com.mercadoon.rest;
 
 import br.com.mercadoon.entity.Cliente;
 import br.com.mercadoon.service.ClienteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class ClienteRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> add(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> add(@Valid @RequestBody Cliente cliente) {
         return new ResponseEntity<>(clienteService.add(cliente), HttpStatus.CREATED);
     }
 

@@ -1,6 +1,7 @@
 package br.com.mercadoon.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,18 +17,23 @@ public class Cliente {
     private Long id;
 
     @Column(name="nome")
+    @NotEmpty(message = "Nome não pode estar vazio ou nulo.")
     private String nome;
 
     @Column(name="sobrenome")
+    @NotEmpty(message = "Sobrenome não pode estar vazio ou nulo.")
     private String sobrenome;
 
     @Column(name="cpf")
+    @NotEmpty(message = "CPF não pode estar vazio ou nulo.")
     private String cpf;
 
     @Column(name="email")
+    @NotEmpty(message = "E-mail não pode estar vazio ou nulo.")
     private String email;
 
     @Column(name="endereco")
+    @NotEmpty(message = "Endereço não pode estar vazio ou nulo.")
     private String endereco;
 
     @Column(name="membro_desde")

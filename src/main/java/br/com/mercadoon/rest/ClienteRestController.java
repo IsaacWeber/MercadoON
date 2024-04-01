@@ -1,5 +1,6 @@
 package br.com.mercadoon.rest;
 
+import br.com.mercadoon.dto.ClienteDto;
 import br.com.mercadoon.entity.Cliente;
 import br.com.mercadoon.service.ClienteService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class ClienteRestController {
     }
 
     @GetMapping
-    public List<Cliente> listar() {
+    public List<ClienteDto> listar() {
         return clienteService.listar();
     }
 

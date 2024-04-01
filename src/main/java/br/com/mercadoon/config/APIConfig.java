@@ -1,11 +1,19 @@
 package br.com.mercadoon.config;
 
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class Cofiguration {
+public class APIConfig {
 
-    /* bean para reparar o migration do flyway.
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    //bean para reparar o migration do flyway.
+    /*
     @Bean
     public FlywayMigrationStrategy cleanMigrationStrategy() {
         return flyway -> {
@@ -13,6 +21,6 @@ public class Cofiguration {
             flyway.migrate();
         };
     }
+    */
 
-     */
 }

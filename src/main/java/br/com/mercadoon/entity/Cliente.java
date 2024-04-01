@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -38,5 +40,8 @@ public class Cliente {
 
     @Column(name="membro_desde")
     private Date membroDesde;
+
+    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    private List<Cartao> cartoes;
 
 }

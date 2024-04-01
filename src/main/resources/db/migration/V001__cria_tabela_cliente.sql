@@ -1,3 +1,5 @@
+use mercadoon;
+
 create table cliente(
 	id bigint auto_increment,
     nome varchar(100) not null,
@@ -8,4 +10,3 @@ create table cliente(
     membro_desde date not null,
     primary key(id)
 );
-

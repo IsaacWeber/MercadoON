@@ -27,23 +27,29 @@ public class ClienteRestController {
     }
 
     @GetMapping("/{id}")
-    public Cliente buscar(@PathVariable Long id) {
+    public ClienteDto buscar(@PathVariable Long id) {
         return clienteService.buscar(id);
     }
 
     @PostMapping
-    public ResponseEntity<Cliente> add(@Valid @RequestBody Cliente cliente) {
+    public ResponseEntity<ClienteDto> add(@Valid @RequestBody Cliente cliente) {
         return new ResponseEntity<>(clienteService.add(cliente), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public Cliente atualizar(@PathVariable Long id, @RequestBody Cliente cliente) {
+    public ClienteDto atualizar(@PathVariable Long id, @Valid @RequestBody Cliente cliente) {
         return clienteService.atualizar(id, cliente);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
         clienteService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deletarTodos() {
+        clienteService.deletarTodos();
         return ResponseEntity.noContent().build();
     }
 }

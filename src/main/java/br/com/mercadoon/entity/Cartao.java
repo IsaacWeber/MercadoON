@@ -4,6 +4,7 @@ import br.com.mercadoon.enumeration.BandeiraCartao;
 import br.com.mercadoon.enumeration.FuncaoCartao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,7 +33,7 @@ public class Cartao {
     private String cvv;
 
     @Column(name = "validade")
-    //@Pattern(regexp = "//d{1,12}///d{2000,2999}")
+    @Pattern(regexp = "\\d{1,2}/\\d{2}", message = "A validade deve estar no formato mm/aa")
     private String validade;
 
     @Enumerated(EnumType.ORDINAL)

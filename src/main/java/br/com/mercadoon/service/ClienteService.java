@@ -23,31 +23,45 @@ public class ClienteService {
     }
 
     public List<ClienteDto> listar() {
+        var cs = clienteRepository.findAll();
         return clienteRepository.findAll()
                 .stream()
                 .map(c -> modelMapper.map(c, ClienteDto.class))
                 .collect(Collectors.toList());
     }
 
-    public Cliente buscar(Long id) {
-        return clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Usuário não encontrado para id = " + id));
+    public ClienteDto buscar(Long id) {
+        return modelMapper.map(
+                clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Usuário não encontrado para id = " + id)),
+                ClienteDto.class);
     }
 
-    public Cliente add(Cliente cliente) {
+    public ClienteDto add(Cliente cliente) {
         cliente.setMembroDesde(new Date(System.currentTimeMillis()));
         cliente.getCartoes().forEach(c -> c.setCliente(cliente));
-        return clienteRepository.save(cliente);
+
+        return modelMapper.map(clienteRepository.save(cliente), ClienteDto.class);
     }
 
-    public Cliente atualizar(Long id, Cliente novoCliente) {
-        clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não econtrado para id = " + id)); // Pesquisa somente para verificar a existência do cliente
-        novoCliente.setId(id);
-        return clienteRepository.save(novoCliente);
+    public ClienteDto atualizar(Long id, Cliente novoCliente) {
+        Cliente bdCliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não econtrado para id = " + id));
+
+        bdCliente.setNome(novoCliente.getNome());
+        bdCliente.setSobrenome(novoCliente.getSobrenome());
+        bdCliente.setCpf(novoCliente.getCpf());
+        bdCliente.setEmail(novoCliente.getEmail());
+        bdCliente.setEndereco(novoCliente.getEndereco());
+
+        return modelMapper.map(clienteRepository.save(bdCliente), ClienteDto.class);
     }
 
     public void deletar(Long id) {
         clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não econtrado para id = " + id)); // Pesquisa somente para verificar a existência do cliente
         clienteRepository.deleteById(id);
+    }
+
+    public void deletarTodos() {
+        clienteRepository.deleteAll();
     }
 }
 

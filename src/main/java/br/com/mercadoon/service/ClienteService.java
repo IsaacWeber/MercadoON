@@ -23,7 +23,6 @@ public class ClienteService {
     }
 
     public List<ClienteDto> listar() {
-        var cs = clienteRepository.findAll();
         return clienteRepository.findAll()
                 .stream()
                 .map(c -> modelMapper.map(c, ClienteDto.class))
@@ -31,8 +30,9 @@ public class ClienteService {
     }
 
     public ClienteDto buscar(Long id) {
-        return modelMapper.map(
-                clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Usuário não encontrado para id = " + id)),
+        return modelMapper.map(clienteRepository
+                        .findById(id)
+                        .orElseThrow(() -> new ClienteNotFoundException("Usuário não encontrado para id = " + id)),
                 ClienteDto.class);
     }
 
@@ -56,8 +56,11 @@ public class ClienteService {
     }
 
     public void deletar(Long id) {
-        clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não econtrado para id = " + id)); // Pesquisa somente para verificar a existência do cliente
-        clienteRepository.deleteById(id);
+        clienteRepository.delete(
+                clienteRepository.findById(id)
+                        .orElseThrow(() ->
+                                new ClienteNotFoundException("Cliente não econtrado para id = " + id))); // Pesquisa somente para verificar a existência do cliente
+
     }
 
     public void deletarTodos() {

@@ -43,4 +43,8 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorValidation, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ErrorResponse> handle(CartaoNotFoundException e) {
+        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 }

@@ -27,8 +27,36 @@ public class CartaoRestController {
         return cartaoService.listar();
     }
 
+    @GetMapping("/{id}")
+    public CartaoDto buscar(@PathVariable Long id) {
+        return cartaoService.buscar(id);
+    }
+
+    @GetMapping("/cliente/{clienteId}")
+    public List<CartaoDto> buscarCartoesPorClienteId(@PathVariable Long clienteId) {
+        return cartaoService.buscarCartoesPorClienteId(clienteId);
+    }
+
     @PostMapping("/{clienteId}")
     public ResponseEntity<CartaoDto> add(@PathVariable Long clienteId, @Valid @RequestBody Cartao cartao) {
         return new ResponseEntity<>(cartaoService.add(clienteId, cartao), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public CartaoDto atualiar(@PathVariable Long id, @Valid @RequestBody Cartao cartao) {
+        return cartaoService.atualizar(id, cartao);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        cartaoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deletarTodos() {
+        cartaoService.deletarTodos();
+        return ResponseEntity.noContent().build();
+    }
+
 }

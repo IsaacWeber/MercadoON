@@ -1,8 +1,8 @@
 package br.com.mercadoon.enumeration;
 
 public enum FuncaoCartao {
-    CREDITO(0),
-    DEBITO(1);
+    DEBITO(0),
+    CREDITO(1);
 
     final int valor;
 

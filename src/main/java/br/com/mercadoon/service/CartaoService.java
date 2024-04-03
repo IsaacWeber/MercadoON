@@ -3,6 +3,7 @@ package br.com.mercadoon.service;
 import br.com.mercadoon.dto.CartaoDto;
 import br.com.mercadoon.entity.Cartao;
 import br.com.mercadoon.entity.Cliente;
+import br.com.mercadoon.exception.CartaoNotFoundException;
 import br.com.mercadoon.exception.ClienteNotFoundException;
 import br.com.mercadoon.repository.CartaoRepository;
 import br.com.mercadoon.repository.ClienteRepository;
@@ -43,5 +44,45 @@ public class CartaoService {
         clienteRepository.save(cliente);
 
         return modelMapper.map(cartao, CartaoDto.class);
+    }
+
+    public CartaoDto buscar(Long id) {
+        return modelMapper.map(
+                cartaoRepository
+                        .findById(id)
+                        .orElseThrow(() -> new CartaoNotFoundException("Cartão não encontrado para id = " + id)),
+                CartaoDto.class);
+    }
+    public void deletar(Long id) {
+        cartaoRepository.delete(
+                cartaoRepository.findById(id)
+                        .orElseThrow(() ->
+                                new CartaoNotFoundException("Cartão não encontrado para id = " + id)));
+    }
+
+    public CartaoDto atualizar(Long id, Cartao novoCartao) {
+        Cartao bdCartao = cartaoRepository.findById(id).orElseThrow(() -> new CartaoNotFoundException("Cartão não encontrado para id = " + id));
+
+        bdCartao.setNomeUsuario(novoCartao.getNomeUsuario());
+        bdCartao.setNumero(novoCartao.getNumero());
+        bdCartao.setCvv(novoCartao.getCvv());
+        bdCartao.setValidade(novoCartao.getValidade());
+        bdCartao.setBandeira(novoCartao.getBandeira());
+        bdCartao.setFuncao(novoCartao.getFuncao());
+
+        return modelMapper.map(cartaoRepository.save(bdCartao), CartaoDto.class);
+    }
+
+    public void deletarTodos() {
+        cartaoRepository.deleteAll();
+    }
+
+    public List<CartaoDto> buscarCartoesPorClienteId(Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado para id = " + clienteId))
+                .getCartoes()
+                .stream()
+                .map(c -> modelMapper.map(c, CartaoDto.class))
+                .collect(Collectors.toList());
     }
 }

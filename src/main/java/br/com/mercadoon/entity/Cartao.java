@@ -4,6 +4,7 @@ import br.com.mercadoon.enumeration.BandeiraCartao;
 import br.com.mercadoon.enumeration.FuncaoCartao;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -38,10 +39,12 @@ public class Cartao {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "bandeira")
+    @NotNull(message = "Bandeira não pode ser nulo") // TODO criar anotação específica para validar (Não pode estar vazia)
     private BandeiraCartao bandeira;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "funcao")
+    @NotNull(message = "Função não pode ser nulo") // TODO criar anotação específica para validar (Não pode estar vazia)
     private FuncaoCartao funcao;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})

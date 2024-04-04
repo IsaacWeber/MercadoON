@@ -38,6 +38,7 @@ public class CartaoService {
     public CartaoDto add(Long clienteId, Cartao cartao) {
         Cliente cliente = clienteRepository.findById(clienteId).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado para id = " + clienteId));
 
+        cartao.setId(null);
         cliente.getCartoes().add(cartao);
         cartao.setCliente(cliente);
 

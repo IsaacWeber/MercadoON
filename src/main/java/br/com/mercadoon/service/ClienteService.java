@@ -37,8 +37,11 @@ public class ClienteService {
     }
 
     public ClienteDto add(Cliente cliente) {
+        cliente.setId(null);
         cliente.setMembroDesde(new Date(System.currentTimeMillis()));
-        cliente.getCartoes().forEach(c -> c.setCliente(cliente));
+
+        if(cliente.getCartoes() != null)
+            cliente.getCartoes().forEach(c -> c.setCliente(cliente));
 
         return modelMapper.map(clienteRepository.save(cliente), ClienteDto.class);
     }

@@ -57,8 +57,7 @@ public class CartaoService {
     public void deletar(Long id) {
         cartaoRepository.delete(
                 cartaoRepository.findById(id)
-                        .orElseThrow(() ->
-                                new CartaoNotFoundException("Cartão não encontrado para id = " + id)));
+                        .orElseThrow(() -> new CartaoNotFoundException("Cartão não encontrado para id = " + id)));
     }
 
     public CartaoDto atualizar(Long id, Cartao novoCartao) {
@@ -79,11 +78,19 @@ public class CartaoService {
     }
 
     public List<CartaoDto> buscarCartoesPorClienteId(Long clienteId) {
-        return clienteRepository.findById(clienteId)
-                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado para id = " + clienteId))
-                .getCartoes()
+        clienteRepository.findById(clienteId).orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado para id = " + clienteId));
+
+        return cartaoRepository.findAllByClienteId(clienteId)
                 .stream()
                 .map(c -> modelMapper.map(c, CartaoDto.class))
                 .collect(Collectors.toList());
     }
+
+    public void deletarTodosPorCliente(Cliente cliente) {
+
+       cartaoRepository.delete(cliente.getCartoes().get(0));
+       //cartaoRepository.deleteAllByClienteId(clienteId);
+    }
+
+
 }

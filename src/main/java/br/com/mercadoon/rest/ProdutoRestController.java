@@ -26,8 +26,31 @@ public class ProdutoRestController {
         return produtoService.listar();
     }
 
+    @GetMapping("/{id}")
+    public ProdutoDto buscar(@PathVariable Long id) {
+        return produtoService.buscar(id);
+    }
+
     @PostMapping
     public ResponseEntity<ProdutoDto> add(@Valid @RequestBody Produto produto) {
         return new ResponseEntity<>(produtoService.add(produto), HttpStatus.CREATED);
     }
+
+    @PutMapping("/{id}")
+    public ProdutoDto atualizar(@PathVariable Long id, @Valid @RequestBody Produto produto) {
+        return produtoService.atualizar(id, produto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        produtoService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deletarTodos() {
+        produtoService.deletarTodos();
+        return ResponseEntity.noContent().build();
+    }
+
 }

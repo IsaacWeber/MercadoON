@@ -49,13 +49,11 @@ public class ClienteService {
     public ClienteDto atualizar(Long id, Cliente novoCliente) {
         Cliente bdCliente = clienteRepository.findById(id).orElseThrow(() -> new ClienteNotFoundException("Cliente não econtrado para id = " + id));
 
-        bdCliente.setNome(novoCliente.getNome());
-        bdCliente.setSobrenome(novoCliente.getSobrenome());
-        bdCliente.setCpf(novoCliente.getCpf());
-        bdCliente.setEmail(novoCliente.getEmail());
-        bdCliente.setEndereco(novoCliente.getEndereco());
+        novoCliente.setId(bdCliente.getId());
+        novoCliente.setMembroDesde(bdCliente.getMembroDesde());
+        novoCliente.setCartoes(null);
 
-        return modelMapper.map(clienteRepository.save(bdCliente), ClienteDto.class);
+        return modelMapper.map(clienteRepository.save(novoCliente), ClienteDto.class);
     }
 
     public void deletar(Long id) {

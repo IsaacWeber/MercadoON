@@ -13,7 +13,7 @@ import java.util.List;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handle(ClienteNotFoundException e) {
+    public ResponseEntity<ErrorResponse> handle(NotFound e) {
         return new ResponseEntity<>(new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
@@ -41,10 +41,5 @@ public class GlobalExceptionHandler {
         errorValidation.setCampos(campos);
 
         return new ResponseEntity<>(errorValidation, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<ErrorResponse> handle(CartaoNotFoundException e) {
-        return new ResponseEntity<>(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }

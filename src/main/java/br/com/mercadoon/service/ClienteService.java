@@ -64,7 +64,7 @@ public class ClienteService {
 
     }
 
-    public void deletarTodos() { // TODO Entender por que não dá para deletar o cliente quando associado a compras. Atualizar
+    public void deletarTodos() {
         clienteRepository.deleteAll();
     }
 }

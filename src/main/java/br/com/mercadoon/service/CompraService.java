@@ -5,6 +5,7 @@ import br.com.mercadoon.entity.Cartao;
 import br.com.mercadoon.entity.Cliente;
 import br.com.mercadoon.entity.Compra;
 import br.com.mercadoon.entity.Produto;
+import br.com.mercadoon.enumeration.StatusCompra;
 import br.com.mercadoon.exception.CartaoNotFoundException;
 import br.com.mercadoon.exception.ClienteNotFoundException;
 import br.com.mercadoon.exception.CompraNotFoundException;
@@ -97,6 +98,8 @@ public class CompraService {
 
         compra.setEntrega(null); // Quando for entregue, a entrega deve ser inicializada com a data efetiva
 
+        compra.setStatus(StatusCompra.EM_PROCESSO);
+
         return modelMapper.map(compraRepository.save(compra), CompraDto.class);
     }
 
@@ -150,6 +153,15 @@ public class CompraService {
         }
 
         return modelMapper.map(compraRepository.save(compra), CompraDto.class);
+    }
+
+    public List<CompraDto> buscarPorClienteId(Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new ClienteNotFoundException("Cliente não encontrado para id = " + clienteId))
+                .getCompras()
+                .stream()
+                .map(c -> modelMapper.map(c, CompraDto.class))
+                .collect(Collectors.toList());
     }
 
     // AUXILIARES

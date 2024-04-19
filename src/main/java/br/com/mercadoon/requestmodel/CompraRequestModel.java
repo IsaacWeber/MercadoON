@@ -23,6 +23,6 @@ public class CompraRequestModel {
     @JsonProperty
     @Size(min = 1, message = "produtosId deve conter pelo menos um id do respectivo produto.")
     @NotNull(message = "produtosId não pode ser nulo.")
-    private List<Long> produtosId; //TODO criar anotação customizada para avaliar. Não pode haver elementos vazios ou nulos
+    private List<Long> produtosId;
 
 }

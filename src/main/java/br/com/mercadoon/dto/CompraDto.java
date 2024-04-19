@@ -1,5 +1,6 @@
 package br.com.mercadoon.dto;
 
+import br.com.mercadoon.enumeration.StatusCompra;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,6 +15,7 @@ public class CompraDto {
     private CartaoCompraDto cartao;
     private Date realizacao;
     private Date previsaoEntrega;
+    private StatusCompra status;
     private Date entrega;
 
     @Getter

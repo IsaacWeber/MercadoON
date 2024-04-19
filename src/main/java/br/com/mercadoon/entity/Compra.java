@@ -1,5 +1,6 @@
 package br.com.mercadoon.entity;
 
+import br.com.mercadoon.enumeration.StatusCompra;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,5 +42,7 @@ public class Compra {
     @Column(name = "entrega")
     private Date entrega;
 
-    //TODO colocar coluna de status com enumeracao(ENTREGUE, EM PROCESSO, INTERROMPIDO, ...) (pensar nas possibilidades para a enumeração)
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private StatusCompra status;
 }

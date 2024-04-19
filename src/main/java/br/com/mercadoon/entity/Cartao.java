@@ -41,12 +41,12 @@ public class Cartao {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "bandeira")
-    @NotNull(message = "Bandeira não pode ser nulo") // TODO criar anotação específica para validar (Não pode estar vazia)
+    @NotNull(message = "Bandeira não pode ser nulo")
     private BandeiraCartao bandeira;
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "funcao")
-    @NotNull(message = "Função não pode ser nulo") // TODO criar anotação específica para validar (Não pode estar vazia)
+    @NotNull(message = "Função não pode ser nulo")
     private FuncaoCartao funcao;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})

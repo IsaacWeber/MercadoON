@@ -31,6 +31,12 @@ public class CompraRestController {
     public CompraDto buscar(@PathVariable Long id) {
         return compraService.buscar(id);
     }
+
+    @GetMapping("/cliente/{clienteId}")
+    public List<CompraDto> buscarPorClienteId(@PathVariable Long clienteId) {
+        return compraService.buscarPorClienteId(clienteId);
+    }
+
     @PostMapping
     public ResponseEntity<CompraDto> add(@Valid @RequestBody CompraRequestModel compraRequestModel){
         return new ResponseEntity<>(compraService.add(compraRequestModel), HttpStatus.CREATED);

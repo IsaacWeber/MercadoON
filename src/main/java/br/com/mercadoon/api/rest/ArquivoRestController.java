@@ -53,4 +53,18 @@ public class ArquivoRestController {
     public ResponseEntity<ArquivoDto> upload(@RequestParam(value = "arquivo", required = false)MultipartFile arquivoMultipart) {
         return new ResponseEntity<>(arquivoService.add(arquivoMultipart), HttpStatus.CREATED);
     }
+
+    @Operation(summary = "Upload de arquivo associado a produto", method = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Upload realizado"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado"),
+            @ApiResponse(responseCode = "400", description = "Dados inválidos"),
+    })
+    @PostMapping(value = "/upload_imagens_produto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ProdutoDto> upload(
+            @RequestParam Long produtoId,
+            @RequestParam(value = "arquivos", required = false)List<MultipartFile> arquivosMultipart) {
+        return new ResponseEntity<>(arquivoService.add(produtoId, arquivosMultipart), HttpStatus.CREATED);
+    }
+
 }

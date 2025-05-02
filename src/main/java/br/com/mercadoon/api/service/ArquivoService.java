@@ -60,7 +60,7 @@ public class ArquivoService {
 
         if(arquivosMultipart != null) {
             // Pega somente arquivos de imagens
-            List<Arquivo> imagens =
+            List<Arquivo> imagensNovas =
                     arquivosMultipart.stream()
                             .filter(a -> a != null)
                             .filter(a -> a.getContentType().startsWith("image/"))
@@ -74,9 +74,10 @@ public class ArquivoService {
                                     throw new RuntimeException("Erro adicionando arquivo! Verifique os dados.");
                                 }
                             })
-                            .collect(Collectors.toList());
+                            .toList();
 
-            produto.setImagens(new ArrayList<>(imagens));
+            if(produto.getImagens() != null) produto.getImagens().addAll(imagensNovas);
+            else produto.setImagens(new ArrayList<>(imagensNovas));
         }
 
         return modelMapper.map(produtoRepository.save(produto), ProdutoDto.class);

@@ -5,6 +5,7 @@ import br.com.mercadoon.api.enumeration.CategoriaProduto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -19,6 +20,7 @@ public class ProdutoDto {
     private String descricao;
     private String descricaoTecnica;
     private Double preco;
+    private LocalDate dataCriacao;
     private ClienteResumoDto cliente;
     private List<ArquivoDto> imagens;
 }

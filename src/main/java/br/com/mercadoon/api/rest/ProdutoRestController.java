@@ -37,6 +37,16 @@ public class ProdutoRestController {
         return produtoService.listar();
     }
 
+    @Operation(summary = "Lista produtos recentes", method = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produtos listados"),
+            @ApiResponse(responseCode = "401", description = "Usuário não autenticado")
+    })
+    @GetMapping("recentes")
+    public List<ProdutoDto> listarRecentes() {
+        return produtoService.listarRecentes();
+    }
+
     @Operation(summary = "Busca produto por id", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Produto encontrado"),

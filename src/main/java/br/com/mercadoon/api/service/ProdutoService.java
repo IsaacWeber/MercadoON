@@ -8,13 +8,19 @@ import br.com.mercadoon.api.exception.ClienteNotFoundException;
 import br.com.mercadoon.api.exception.ProdutoNotFoundException;
 import br.com.mercadoon.api.repository.ClienteRepository;
 import br.com.mercadoon.api.repository.ProdutoRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,12 +31,14 @@ public class ProdutoService {
     private ModelMapper modelMapper;
     private ArquivoService arquivoService;
     private ClienteRepository clienteRepository;
+    private EntityManager entityManager;
 
-    public ProdutoService(ArquivoService arquivoService, ClienteRepository clienteRepository, ModelMapper modelMapper, ProdutoRepository produtoRepository) {
+    public ProdutoService(ArquivoService arquivoService, ClienteRepository clienteRepository, ModelMapper modelMapper, ProdutoRepository produtoRepository, EntityManager entityManager) {
         this.arquivoService = arquivoService;
         this.clienteRepository = clienteRepository;
         this.modelMapper = modelMapper;
         this.produtoRepository = produtoRepository;
+        this.entityManager = entityManager;
     }
 
     public List<ProdutoDto> listar() {
@@ -45,6 +53,8 @@ public class ProdutoService {
 
         produto.setId(null);
         produto.setCliente(cliente);
+        produto.setDataCriacao(LocalDate.now());
+
         return modelMapper.map(produtoRepository.save(produto), ProdutoDto.class);
     }
 
@@ -77,5 +87,14 @@ public class ProdutoService {
                                 .stream()
                                 .map(p -> modelMapper.map(p, ProdutoDto.class))
                                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ProdutoDto> listarRecentes() {
+        return  entityManager.createQuery("FROM Produto ORDER BY dataCriacao LIMIT 3", Produto.class)
+                .getResultList()
+                .stream()
+                .map(p -> modelMapper.map(p, ProdutoDto.class))
+                .toList();
     }
 }

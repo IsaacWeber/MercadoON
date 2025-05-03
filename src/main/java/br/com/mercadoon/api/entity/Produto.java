@@ -7,6 +7,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -51,6 +53,9 @@ public class Produto {
     @Column(name = "preco")
     @NotNull(message = "O preço não pode ser nulo")
     private Double preco;
+
+    @Column(name = "data_criacao", columnDefinition = "DATE")
+    private LocalDate dataCriacao;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     @JoinTable(name = "compra_produto",
